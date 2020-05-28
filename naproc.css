@@ -1,0 +1,16 @@
+.ntip{table-layout:fixed; padding:0px;}
+.pch { color: blue; text-align: left; width: 40%; font-size: large; }
+.vch { color: blue; text-align: right; width: 38%; font-size: large;}
+.uch {color: blue; text-align: center; width: 11%; font-size: large;}
+.rch {color: blue; text-align: center; width: 11%; font-size: large;}
+.pc {color: black; text-align: left; width:440px;  }
+.vc {color: black; text-align: right;}
+.rc {color: black; text-align:right;}
+.uc {color: black; text-align: center;}
+.td{padding:1px;border-bottom: 1px solid #ddd}
+.th{padding:1px;}
+.tr{padding:1px;}
+.ntiph{display:none;}
+.hr{border-bottom: 3px solid #0d47a1}
+.nonpr{}
+.expandrow{}
