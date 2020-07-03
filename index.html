@@ -161,7 +161,7 @@
 
 	
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script type="text/javascript" src="./jsondata_125.js"></script>
+<script type="text/javascript" src="./jsondata_306.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 
 <script>
@@ -227,9 +227,9 @@ function ThermalTable(){
       cell1 = row.insertCell(0);
 	  cell1.classList.add("vc");
 	  cell1.classList.add("td");
-//errorColCom      cell1.innerHTML = "TBD";
-//errorColCom      cell1 = row.insertCell(0);
-      if(naprops.correlation[i].function !== 'none'&& naprops.correlation[i].function !== ''){
+	if(T<naprops.correlation[i].rangel || T>naprops.correlation[i].rangeh){
+		 cell1.innerHTML="N/A";
+      }else if(naprops.correlation[i].function !== 'none'){
         cell1.innerHTML= BuildFunction(T,naprops.correlation[i].function);
       }else{
         var dataxa=naprops.correlation[i].datax.split(",");
@@ -269,9 +269,9 @@ function TransportTable(){
 	  cell1.classList.add("td");
 //errorColCom      cell1.innerHTML = "TBD";
 //errorColCom      cell1 = row.insertCell(0);
-      if(naprops.correlation[i].function !== 'none'&& naprops.correlation[i].function !== ''){
+      if(naprops.correlation[i].function !== 'none'&& naprops.correlation[i].function !== ''&& T>=naprops.correlation[i].rangel && T<=naprops.correlation[i].rangeh){
         cell1.innerHTML= BuildFunction(T,naprops.correlation[i].function); 	
-      }else{
+      }else if(T=>naprops.correlation.rangel && T<=naprops.correlation.rangeh){
         var dataxa=naprops.correlation[i].datax.split(",");
         var dataya=naprops.correlation[i].datay.split(",");
         cell1.innerHTML=linearInterpolate(dataxa,dataya,T);
@@ -302,29 +302,31 @@ function showAllRef(title,T){
 	for (var i = 0; i<naprops.correlation.length; i++){
 		if(naprops.correlation[i].title==title && naprops.correlation[i].principal=="FALSE"){
       //row = table.insertRow(table.rows.length);
-			row = table.insertRow(j+1);
-			row.classList.add("nonpr");
-			cell1 = row.insertCell(0);
-			cell1.classList.add("rc");
-			cell1.classList.add("td");
-			cell1.innerHTML = naprops.correlation[i].reference;	
-			cell1 = row.insertCell(0);
-			cell1.classList.add("uc");
-			cell1.classList.add("td");
-			cell1.innerHTML = naprops.correlation[i].units;
-			cell1 = row.insertCell(0);
-			cell1.classList.add("vc");
-			cell1.classList.add("td");
-			if(naprops.correlation[i].function !== 'none'&& naprops.correlation[i].function !== ''){
-				cell1.innerHTML= BuildFunction(T,naprops.correlation[i].function); 	
-				}else{
-					var dataxa=naprops.correlation[i].datax.split(",");
-					var dataya=naprops.correlation[i].datay.split(",");
-					cell1.innerHTML=linearInterpolate(dataxa,dataya,T);
-				}
-			cell1 = row.insertCell(0);
-			cell1.classList.add("pc");
-			cell1.classList.add("td");
+			if(T>naprops.correlation[i].rangel && T<naprops.correlation[i].rangeh){
+				row = table.insertRow(j+1);
+				row.classList.add("nonpr");
+				cell1 = row.insertCell(0);
+				cell1.classList.add("rc");
+				cell1.classList.add("td");
+				cell1.innerHTML = naprops.correlation[i].reference;	
+				cell1 = row.insertCell(0);
+				cell1.classList.add("uc");
+				cell1.classList.add("td");
+				cell1.innerHTML = naprops.correlation[i].units;
+				cell1 = row.insertCell(0);
+				cell1.classList.add("vc");
+				cell1.classList.add("td");
+				if(naprops.correlation[i].function !== 'none'&& naprops.correlation[i].function !== ''){
+					cell1.innerHTML= BuildFunction(T,naprops.correlation[i].function); 	
+					}else{
+						var dataxa=naprops.correlation[i].datax.split(",");
+						var dataya=naprops.correlation[i].datay.split(",");
+						cell1.innerHTML=linearInterpolate(dataxa,dataya,T);
+					}
+				cell1 = row.insertCell(0);
+				cell1.classList.add("pc");
+				cell1.classList.add("td");
+			}
 		}
 	}
 
