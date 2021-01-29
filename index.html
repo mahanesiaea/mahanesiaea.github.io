@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
+<!--R8---->
 <head>    
     <title>IAEA:NAPROC</title>
 	<link rel="stylesheet" href="./naproc.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<!-- 	<link rel="stylesheet" href="./materialize.min2.css">-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
@@ -15,6 +15,8 @@
       <a href="#" class="brand-logo"><i class="material-icons right">bubble</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="#">Home</a></li>
+		<li><a href="https://www.iaea.org/projects/crp/i31024">About NAPRO</a></li>
+		<li><a href="https://www.zotero.org/groups/2130799/iaea-napro/collections/K2M9RWN2/items/X6I2IBES/collection">References</a></li>
 		<li><a href="#ntip">Temperature Indepedent Table</a></li>
         <li><a href="#npt">Property Table</a></li>
         <li><a href="#npc">Figure</a></li>
@@ -25,262 +27,179 @@
 	
 
 	<div class="row">
-
-    <div class="col s2">
-        <div class="card-panel blue-grey">
-			<ul class="collection">
-                <li class = "collection-item"><a href="./NAPROC_rev0.000.html">Calculator</a></li>
-				<li class = "collection-item"><a href="https://www.iaea.org/projects/crp/i31024">About NAPRO</a></li>
-				<li class = "collection-item"> References</li>
-				<li class = "collection-item"> Help</li>
-				<li class = "collection-item"> Contact</li>
-			</ul>
+		<div class="col s12" >
+<!--		<div class="card-panel blue darken-3">	-->
+			<div class="blue darken-3">		
+			<h2><img src="naprocbanner_tr.png"></h2>
 		</div>
-    </div>
-
-    <div class="col s10" style="width:1000px">
-		<div class="card-panel blue darken-3">
-			
-<!--			<h2><img src="./NAPROClogo.jpg" alt="NAPROC" style="width:100px;height:250px;"> NAPROC: Sodium Thermal Properties Calculator</h2>
--->				<h2>NAPROC: Sodium Properties Calculator</h2>
-		</div>
-	
-	
-	
+		
 	<div class = "row" style="background-color:#90CAF9;">
-	<div class = "col s4">
-        <form>
-            <div>
-                <label>Enter Temperature (K)</label>
-				<input id = "temp" type="number" autofocus> 
-              <!--  <input id = "temp" type="number" id="item" autofocus> -->
-            </div>
-            <!--<button class ="btn waves-effect waves-light" onclick ="myFunction(); plotRho();" type="button">Submit<i class="material-icons right">send</i>
-            </button> -->
-            
-        </form>
+		<div class = "col s4">
+<!--			<form> Form is used for submitting information to a server, for a local only application it is not necessary. It also interferes with the button listener event-->  
+				<div>
+					<label>Enter Temperature (K)</label>
+					<input id = "temp" type="number" autofocus>
+				</div>    
+<!--			</form> -->
+		</div>
+
+        <div class = "col s4">
+			<div class="btn-group">
+				<button class ="btn waves-effect waves-light blue" onclick ="BuildTable('TRUE')" type="button" id="submit">Submit<i class="material-icons right">send</i></button>
+				<button class ="btn waves-effect waves-light blue" onclick ="clearFunction()" type="button">Clear<i class="material-icons right">autorenew</i></button>
+			</div>  
+		</div>
+
+		<div class = "col s2" id=><p id ="error-message" style="color:red"></p></div>
 	</div>
-<!--
-	<div class = "col s3">
-        <form>
-            <div>
-                <label>Enter Pressure (Pa)</label>
-                <input id = "press" type="number" id="item" autofocus>
-            </div>
-            
-        </form>
-  </div>
- -->
-  <div class = "col s4">
-        <div class="btn-group">
-        <button class ="btn waves-effect waves-light blue" onclick ="ThermalTable()" type="button" id="submit">Submit<i class="material-icons right">send</i></button>
+	<div>
+<!-- -----------------------------------------------------Temperature Indepedent Data -->	
+		<table id="ntip" class="ntip highlight s10">
+			<thead>
+			<tr class="hr">
+				<th class = "pch th"><button class ="btn-large waves-effect waves-light blue" style=width:100% onclick ="TItoggle()" type="button">Temperature Independent Properties</button></th>
+				<th class="vch th" style="text-align:center" >Value</th>
+				<th class="uch th">Units</th>
+				<th class="rch th">Principal<br>Reference #</th>
+            </tr>
+			<tr>
+				<td class="td pc"><button class ="btn waves-effect" type="button" style=width:100% "text-align:left" onclick="showAllRefip('Melting Point')"</button>Melting Point</td>
+				<td class="td vc">370.90 </td>
+				<td class="td uc">K</td>
+				<td class="td rc">Ohse et al 1985</td>
+			</tr>
+			<tr>
+				<td class="td pc"><button class ="btn waves-effect" type="button" style=width:100% "text-align:left" onclick="showAllRefip('Boiling Point')"</button>Boiling Point</td>
+				<td class="td vc">1154.7</td>
+				<td class="td uc">K</td>
+				<td class="td rc">Fink, Leibowitz 1995</td>
+			</tr>
+			<tr>
+				<td class="td pc"><button class ="btn waves-effect" type="button" style=width:100% "text-align:left" onclick="showAllRefip('Critical Temperature')"</button>Critical Temperature</td>
+				<td class="td vc">2503.7</td>
+				<td class="td uc">K</td>
+				<td class="td rc">Fink, Leibowitz 1995</td>
+			</tr>
+			</thead>
+		</table>
+	</div>	
 
-    <button class ="btn waves-effect waves-light blue" onclick ="clearFunction()" type="button">Clear<i class="material-icons right">autorenew</i></button>
-</div>  
-</div>
-
-
-
-
-
-
-<div class = "col s2" id=><p id ="error-message" style="color:red"></p></div>
+	<div>	
+		<table id="npt" class="npt highlight s10">
+			<thead>
+			<tr class="hr">
+				<th class = "pch th">
+				<button class ="btn-large waves-effect waves-light blue" style=width:49% onclick ="BuildTable('TRUE')" type="button">Thermodynamic</button>
+				<button class ="btn-large waves-effect waves-light blue " style=width:49% onclick ="BuildTable('FALSE')" type="button">Transport</button>
+				</th>
+				<th class="vch th" style="text-align:center" >Value</th>
+				<th class="uch th" >Units<br>Function</th>
+				<th class="rch th" >Principal<br>Reference #</th>
+			</tr>
+			</thead>
+		</table>
 	</div>
-<div>	
-
-
-<table id="ntip" class="ntip highlight s10">
-        <thead>
-          <tr class="hr">
-              <th class = "pch th"><button class ="btn-large waves-effect waves-light blue" style=width:100% onclick ="TItoggle()" type="button">Temperature Independent Properties</button></th>
-              <th class="vch th" style="text-align:center" >Value</th>
-              <th class="uch th">Units</th>
-              <th class="rch th">Principal<br>Reference #</th>
-          </tr>
-		  <tr>
-			<td class="td pc"><button class ="btn waves-effect" type="button" style=width:100% "text-align:left" onclick=plotfig()</button>Melting Point</td>
-			<td class="td vc">370.90 </td>
-			<td class="td uc">K</td>
-			<td class="td rc">50</td>
-		  </tr>
-		  <tr>
-			<td class="td pc"><button class ="btn waves-effect" type="button" style=width:100% "text-align:left" onclick=plotfig()</button>Boiling Point</td>
-			<td class="td vc">1154.7</td>
-			<td class="td uc">K</td>
-			<td class="td rc">114</td>
-		  </tr>
-		  <tr>
-			<td class="td pc"><button class ="btn waves-effect" type="button" style=width:100% "text-align:left" onclick=plotfig()</button>Critical Temperature</td>
-			<td class="td vc">2503.7</td>
-			<td class="td uc">K</td>
-			<td class="td rc">114</td>
-		  </tr>
-		  <tr>
-			<td class="td pc"><button class ="btn waves-effect" type="button" style=width:100% "text-align:left" onclick=plotfig()</button>Critical Temperature</td>
-			<td class="td vc">113</td>
-			<td class="td uc">kJ/kg</td>
-			<td class="td rc">126</td>
-		  </tr>
-        </thead>
-    </table>
-</div>	
-
-
-<div>	
-	<!--<table class ="striped" id="npt" style="border:0; padding:0;">-->
-    <table id="npt" class="npt highlight s10">
-        <thead>
-          <tr class="hr">
-              <th class = "pch th">
-<!--			  <th> <div class="btn-group">-->
-                <button class ="btn-large waves-effect waves-light blue" style=width:49% onclick ="ThermalTable()" type="button">Thermodynamic</button>
-                <button class ="btn-large waves-effect waves-light blue " style=width:49% onclick ="TransportTable()" type="button">Transport</button>
-              </th>
-              <th class="vch th" style="text-align:center" >Value</th>
-<!--errorColCom                 <th>Error</th> -->
-              <th class="uch th" >Units</th>
-              <th class="rch th" >Principal<br>Reference #</th>
-          </tr>
-        </thead>
-    </table>
-</div>
 
 	    
-	
-
-  <h4>Graphs</h4>
-  
-  
-  <div style="width:1000px">
-    <canvas id="npc" ></canvas>
+	<h4>Graphs</h4>
+		<div>
+			<canvas id="npc" ></canvas>
+		</div>
 	</div>
-	</div>
-
-  </div>	
+</div>	
 	    
 
 	
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script type="text/javascript" src="./jsondata_2912.js"></script>
+<script type="text/javascript" src="./ntip.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 
 <script>
 //-----------------------------------------------------Global Variables
-var text = mybigdata;
-var naprops = JSON.parse(text);
-var table = document.getElementById("npt");
+var naprops = JSON.parse(NAPROJSON);
+var ntips = JSON.parse(ntipJSON);
+var ttable = document.getElementById("npt");
+var itable=document.getElementById("ntip");
 var chart = null;
+var dialog 
 
-/*
-$(document).ready(function() {
-  $("#temp").keyup(function(event) {
-    if (event.which === 13) {
-      $("#submit").click();
-		}
-	});
- }
-*/
+//----------------------------------------------------Enter triggers Submit
+document.getElementById("temp") 
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("submit").click();
+    }
+});
+
+//-----------------------------------------------------Double clicking triggers copy text
+function copyToClipboard(textToCopy) {
+    var input = document.createElement("input");
+    document.body.appendChild(input);
+    input.value = textToCopy;
+    input.select();
+    document.execCommand("Copy");
+    input.remove();
+}
+
+
 function clearFunction(){
 	clearTable();
 	if(chart) chart.destroy();
 	}
 function clearTable(){
-  for(var i = table.rows.length; i>1; i--){table.deleteRow(table.rows.length-1);}
+  for(var i = ttable.rows.length; i>1; i--){ttable.deleteRow(ttable.rows.length-1);}
 }
 
 
 function TItoggle(){
-	var ntiptable=document.getElementById("ntip");
-
-	if(ntiptable.rows[1].classList.contains("ntiph")){
-		for(var i = 1; i<ntiptable.rows.length; i++){
-		ntiptable.rows[i].classList.remove("ntiph");
+	if(itable.rows[1].classList.contains("ntiph")){
+		for(var i = 1; i<itable.rows.length; i++){
+		itable.rows[i].classList.remove("ntiph");
 			}
 		}else{
-			for(var i = 1; i<ntiptable.rows.length; i++){
-			ntiptable.rows[i].classList.add("ntiph");
+			for(var i = 1; i<itable.rows.length; i++){
+			itable.rows[i].classList.add("ntiph");
 			}
 		}
 }
-//This function hides variables in the display table related to Transport properties, and shows those related to Thermal properties
-function ThermalTable(){
-  var T = parseFloat(document.getElementById("temp").value);
-  if(T>371 && T<=2503.7){
-    document.getElementById("error-message").innerHTML="T = "+T+" K";
-  clearTable();
-  table = document.getElementById("npt");
-  var row, cell1
-  for (var i = 0; i<naprops.correlation.length; i++){
-    
-	
-	if(naprops.correlation[i].principal=="TRUE" && naprops.correlation[i].thermal=="TRUE"){
-      row = table.insertRow(table.rows.length);
-	  row.classList.add("tr");
-      cell1 = row.insertCell(0);
-	  cell1.classList.add("rc");
-	  cell1.classList.add("td");
-      cell1.innerHTML = naprops.correlation[i].reference;
-      cell1 = row.insertCell(0);
-      cell1.innerHTML = naprops.correlation[i].units;
-	  cell1.classList.add("uc");
-	  cell1.classList.add("td");
-      cell1 = row.insertCell(0);
-	  cell1.classList.add("vc");
-	  cell1.classList.add("td");
-	if(T<naprops.correlation[i].rangel || T>naprops.correlation[i].rangeh){
-		 cell1.innerHTML="N/A";
-      }else if(naprops.correlation[i].function !== 'none'){
-        cell1.innerHTML= BuildFunction(T,naprops.correlation[i].function);
-      }else{
-        var dataxa=naprops.correlation[i].datax.split(",");
-        var dataya=naprops.correlation[i].datay.split(",");
-        cell1.innerHTML=linearInterpolate(dataxa,dataya,T);
-      }
-      cell1 = row.insertCell(0);
-	  cell1.classList.add("pc");
-	  cell1.classList.add("td");
-      cell1.innerHTML='<button class ="btn waves-effect materialize-blue" type="button" style=width:100% "text-align:left" onclick="propertyClick(\''+naprops.correlation[i].title+'\')">'+naprops.correlation[i].title+'</button>';
-	}
-  }
-}else{document.getElementById("error-message").innerHTML="T must be between 371 and 2507K";}
-}
 
-//This function hides variables in the display table related to Thermal properties, and shows those related to Transport properties
-function TransportTable(){
+//This function builds the selected table, Thermodynamic or Transport, with the principal reference of each property
+function BuildTable(ThTr){
   var T = parseFloat(document.getElementById("temp").value);
   if(T>371 && T<=2503.7){
   document.getElementById("error-message").innerHTML="T = "+T+" K";
   clearTable();
-  table = document.getElementById("npt");
+  ttable = document.getElementById("npt");
   var row, cell1
   for (var i = 0; i<naprops.correlation.length; i++){
-    if(naprops.correlation[i].principal=="TRUE" && naprops.correlation[i].thermal=="FALSE"){
-      row = table.insertRow(table.rows.length);
+    if(naprops.correlation[i].principal=="TRUE" && naprops.correlation[i].thermal==ThTr){
+      row = ttable.insertRow(ttable.rows.length);
+	  row.classList.add("tr");
       cell1 = row.insertCell(0);
-	  cell1.classList.add("rc");
-	  cell1.classList.add("td");
-      cell1.innerHTML = naprops.correlation[i].reference;	
+	  cell1.classList.add("rc","td");
+      cell1.innerHTML = naprops.correlation[i].reference;
       cell1 = row.insertCell(0);
-	  cell1.classList.add("uc");
-	  cell1.classList.add("td");
       cell1.innerHTML = naprops.correlation[i].units;
+	  cell1.classList.add("uc","td");
+	  cell1.setAttribute('ondblclick',"copyToClipboard('"+naprops.correlation[i].function+"')")
+	  cell1.setAttribute('title','Double Click to Copy:'+naprops.correlation[i].function)
       cell1 = row.insertCell(0);
-	  cell1.classList.add("vc");
-	  cell1.classList.add("td");
-//errorColCom      cell1.innerHTML = "TBD";
-//errorColCom      cell1 = row.insertCell(0);
+	  cell1.classList.add("vc","td");
 	if(T<naprops.correlation[i].rangel || T>naprops.correlation[i].rangeh){
-		 cell1.innerHTML="N/A";
+		 v="N/A";
       }else if(naprops.correlation[i].function !== 'none'){
-        cell1.innerHTML= BuildFunction(T,naprops.correlation[i].function);
+        v= BuildFunction(T,naprops.correlation[i].function);
       }else{
         var dataxa=naprops.correlation[i].datax.split(",");
         var dataya=naprops.correlation[i].datay.split(",");
-        cell1.innerHTML=linearInterpolate(dataxa,dataya,T);
+        v=linearInterpolate(dataxa,dataya,T);
       }
+	  cell1.innerHTML=v;
+	  cell1.setAttribute('ondblclick',"copyToClipboard('"+v+"')")
       cell1 = row.insertCell(0);
-	  cell1.classList.add("pc");
-	  cell1.classList.add("td");
+	  cell1.classList.add("pc","td");
       cell1.innerHTML='<button class ="btn waves-effect waves-light" type="button" style="width:100%" onclick="propertyClick(\''+naprops.correlation[i].title+'\')">'+naprops.correlation[i].title+'</button>';
     }
   }
@@ -297,42 +216,69 @@ function propertyClick(title){
 function showAllRef(title,T){
 	var row, cell1, hr;
 	$(".nonpr").remove();
-	for (var i = 0, row; row = table.rows[i]; i++) {
+	for (var i = 0, row; row = ttable.rows[i]; i++) {
 			if(row.cells[0].textContent==title){j=i;};
 	}  
 	
 	for (var i = 0; i<naprops.correlation.length; i++){
 		if(naprops.correlation[i].title==title && naprops.correlation[i].principal=="FALSE"){
-      //row = table.insertRow(table.rows.length);
+      //row = ttable.insertRow(ttable.rows.length);
 			if(T>naprops.correlation[i].rangel && T<naprops.correlation[i].rangeh){
-				row = table.insertRow(j+1);
+				row = ttable.insertRow(j+1);
 				row.classList.add("nonpr");
 				cell1 = row.insertCell(0);
-				cell1.classList.add("rc");
-				cell1.classList.add("td");
+				cell1.classList.add("rc","td");
 				cell1.innerHTML = naprops.correlation[i].reference;	
 				cell1 = row.insertCell(0);
-				cell1.classList.add("uc");
-				cell1.classList.add("td");
+				cell1.classList.add("uc","td");
+				cell1.setAttribute('ondblclick',"copyToClipboard('"+naprops.correlation[i].function+"')")
+				cell1.setAttribute('title',naprops.correlation[i].function)
 				cell1.innerHTML = naprops.correlation[i].units;
 				cell1 = row.insertCell(0);
-				cell1.classList.add("vc");
-				cell1.classList.add("td");
-				if(naprops.correlation[i].function !== 'none'&& naprops.correlation[i].function !== ''){
-					cell1.innerHTML= BuildFunction(T,naprops.correlation[i].function); 	
-					}else{
-						var dataxa=naprops.correlation[i].datax.split(",");
-						var dataya=naprops.correlation[i].datay.split(",");
-						cell1.innerHTML=linearInterpolate(dataxa,dataya,T);
+				cell1.classList.add("vc","td");
+				if(T<naprops.correlation[i].rangel || T>naprops.correlation[i].rangeh){
+					v="N/A";
+				}else if(naprops.correlation[i].function !== 'none'){
+					v= BuildFunction(T,naprops.correlation[i].function);
+				}else{
+					var dataxa=naprops.correlation[i].datax.split(",");
+					var dataya=naprops.correlation[i].datay.split(",");
+					v=linearInterpolate(dataxa,dataya,T);
 					}
+				cell1.innerHTML=v;
+				cell1.setAttribute('ondblclick',"copyToClipboard('"+v+"')")
 				cell1 = row.insertCell(0);
-				cell1.classList.add("pc");
-				cell1.classList.add("td");
+				cell1.classList.add("pc","td");
 			}
 		}
 	}
 
 }
+function showAllRefip(property){
+	var row, cell1, hr;
+	$(".nonpr").remove();
+	for (var i = 0, row; row = itable.rows[i]; i++) {
+			if(row.cells[0].textContent==property){j=i;};
+	}  
+	for (var i = 0; i<ntips.observation.length; i++){
+		if(ntips.observation[i].property==property){
+				row = itable.insertRow(j+1);
+				row.classList.add("nonpr");
+				cell1 = row.insertCell(0);
+				cell1.classList.add("rc","td");
+				cell1.innerHTML = ntips.observation[i].reference;	
+				cell1 = row.insertCell(0);
+				cell1.classList.add("uc","td");
+				cell1.innerHTML = ntips.observation[i].units;
+				cell1 = row.insertCell(0);
+				cell1.classList.add("vc","td");
+				cell1.innerHTML=ntips.observation[i].value;
+				cell1 = row.insertCell(0);
+				cell1.classList.add("pc","td");
+		}
+	}
+}
+
 function linearInterpolate(dataxa,dataya,xn){
   var xl,xh,yl,yh,yn;
   for(var i=0; i<=dataxa.length; i++){
@@ -380,8 +326,6 @@ for (var i = 0; i<naprops.correlation.length; i++){
       }
       var dataset={
         backgroundColor : "rgba("+nextRand(255)+","+nextRand(255)+","+nextRand(255)+",0.5)",
-        //backgroundColor : "rgba("+naprops.correlation[i].reference+","+naprops.correlation[i].reference+","+naprops.correlation[i].reference+",0.5)",
-       // borderColor : 'green',
         fill : false,
         label : naprops.correlation[i].reference,
         data: data
@@ -395,14 +339,12 @@ for (var i = 0; i<naprops.correlation.length; i++){
 
 var ctx = document.getElementById('npc').getContext('2d');
 	  chart = new Chart(ctx, {
-    // The type of chart we want to create
     type: 'scatter',
     data: {
         datasets: NAPROseries,
         backgroundColor:["red","blue","green","yellow","purple","orange"]
     },
 
-    // Configuration options go here
    	options: {
       title: {
         display: true,
