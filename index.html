@@ -122,7 +122,7 @@ var ntips = JSON.parse(ntipJSON);
 var ttable = document.getElementById("npt");
 var itable=document.getElementById("ntip");
 var chart = null;
-var dialog 
+var dialog;
 
 //----------------------------------------------------Enter triggers Submit
 document.getElementById("temp") 
@@ -141,13 +141,26 @@ function copyToClipboard(textToCopy) {
     input.select();
     document.execCommand("Copy");
     input.remove();
+	tempAlert("Copied:<br>" + textToCopy);
+}
+
+function tempAlert(msg){
+ var el = document.createElement("div");
+ el.classList.add("alertbox");
+ el.innerHTML = msg;
+ setTimeout(function(){
+  el.parentNode.removeChild(el);
+ },2000);
+ document.body.appendChild(el);
 }
 
 
 function clearFunction(){
 	clearTable();
 	if(chart) chart.destroy();
-	}
+}
+
+
 function clearTable(){
   for(var i = ttable.rows.length; i>1; i--){ttable.deleteRow(ttable.rows.length-1);}
 }
@@ -156,13 +169,13 @@ function clearTable(){
 function TItoggle(){
 	if(itable.rows[1].classList.contains("ntiph")){
 		for(var i = 1; i<itable.rows.length; i++){
-		itable.rows[i].classList.remove("ntiph");
+			itable.rows[i].classList.remove("ntiph");
 			}
-		}else{
-			for(var i = 1; i<itable.rows.length; i++){
+	}else{
+		for(var i = 1; i<itable.rows.length; i++){
 			itable.rows[i].classList.add("ntiph");
 			}
-		}
+	}
 }
 
 //This function builds the selected table, Thermodynamic or Transport, with the principal reference of each property
@@ -208,24 +221,30 @@ function BuildTable(ThTr){
 }
 
 function propertyClick(title){
-  var T = parseFloat(document.getElementById("temp").value);
-  showAllRef(title,T); 
-  plotfig(title);
+	var cname = title.replace(/[^a-zA-Z0-9]/g, '');
+	if (document.getElementsByClassName(cname).length > 0) {
+		$("."+cname).remove();
+	}
+	else{
+		var T = parseFloat(document.getElementById("temp").value);
+		showAllRef(title,T, cname); 
+		plotfig(title);
+	}
 }
 
-function showAllRef(title,T){
+function showAllRef(title,T, cname){
 	var row, cell1, hr;
-	$(".nonpr").remove();
+	
 	for (var i = 0, row; row = ttable.rows[i]; i++) {
 			if(row.cells[0].textContent==title){j=i;};
 	}  
 	
 	for (var i = 0; i<naprops.correlation.length; i++){
 		if(naprops.correlation[i].title==title && naprops.correlation[i].principal=="FALSE"){
-      //row = ttable.insertRow(ttable.rows.length);
+	  //row = ttable.insertRow(ttable.rows.length);
 			if(T>naprops.correlation[i].rangel && T<naprops.correlation[i].rangeh){
 				row = ttable.insertRow(j+1);
-				row.classList.add("nonpr");
+				row.classList.add(cname);
 				cell1 = row.insertCell(0);
 				cell1.classList.add("rc","td");
 				cell1.innerHTML = naprops.correlation[i].reference;	
@@ -252,29 +271,35 @@ function showAllRef(title,T){
 			}
 		}
 	}
-
 }
 function showAllRefip(property){
-	var row, cell1, hr;
-	$(".nonpr").remove();
-	for (var i = 0, row; row = itable.rows[i]; i++) {
-			if(row.cells[0].textContent==property){j=i;};
-	}  
-	for (var i = 0; i<ntips.observation.length; i++){
-		if(ntips.observation[i].property==property){
-				row = itable.insertRow(j+1);
-				row.classList.add("nonpr");
-				cell1 = row.insertCell(0);
-				cell1.classList.add("rc","td");
-				cell1.innerHTML = ntips.observation[i].reference;	
-				cell1 = row.insertCell(0);
-				cell1.classList.add("uc","td");
-				cell1.innerHTML = ntips.observation[i].units;
-				cell1 = row.insertCell(0);
-				cell1.classList.add("vc","td");
-				cell1.innerHTML=ntips.observation[i].value;
-				cell1 = row.insertCell(0);
-				cell1.classList.add("pc","td");
+	var row, cell1, hr, cname;
+	
+	cname = property.replace(/\s/g, '')
+	if (document.getElementsByClassName(cname).length > 0) {
+		$("."+cname).remove();
+	}
+	else{
+		for (var i = 0, row; row = itable.rows[i]; i++) {
+				if(row.cells[0].textContent==property){j=i;};
+		}  
+		for (var i = 0; i<ntips.observation.length; i++){
+			if(ntips.observation[i].property==property){
+					row = itable.insertRow(j+1);
+					row.classList.add(cname);
+					cell1 = row.insertCell(0);
+					cell1.classList.add("rc","td");
+					cell1.innerHTML = ntips.observation[i].reference;	
+					cell1 = row.insertCell(0);
+					cell1.classList.add("uc","td");
+					cell1.innerHTML = ntips.observation[i].units;
+					cell1 = row.insertCell(0);
+					cell1.classList.add("vc","td");
+					cell1.innerHTML = ntips.observation[i].value;
+					cell1.setAttribute('ondblclick',"copyToClipboard('"+ntips.observation[i].value+"')")
+					cell1 = row.insertCell(0);
+					cell1.classList.add("pc","td");
+			}
 		}
 	}
 }
